@@ -1,0 +1,49 @@
+---
+title: "Course Project Part 2"
+author: "Steven Durham"
+date: "January 25, 2015"
+output: pdf_document
+---
+
+##Overview
+In the second portion of this project, we're going to analyze the ToothGrowth data in the R datasets package. The response is the length of teeth in each of 10 guinea pigs at each of three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods (orange juice or ascorbic acid).
+
+###Load the ToothGrowth data, provide a basic summary of the data, and perform some basic exploratory data analyses
+
+```{r}
+library(datasets)
+data(ToothGrowth)
+str(ToothGrowth)
+ToothGrowth$dose <- as.factor(ToothGrowth$dose)
+summary(ToothGrowth)
+```
+
+The following figure infers that at 0.5 mg and 1.0 mg, orange juice leads to increased tooth growth vs. ascorbic acid, while that advantage appears to subside with a dose of 2.0 mg.
+
+```{r, echo=FALSE}
+boxplot(len ~ supp * dose, ToothGrowth, col="red", ylab="Tooth Length", xlab="Supplement & Dose in Mg", main="Boxplots by Supplement and Dose")
+```
+
+****
+
+###Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose.
+
+_With a dose of 0.5 mg_
+```{r}
+t.test(len ~ supp, ToothGrowth[ToothGrowth$dose==0.5,])
+```
+
+_With a dose of 1.0 mg_
+```{r}
+t.test(len ~ supp, ToothGrowth[ToothGrowth$dose==1.0,])
+```
+
+_With a dose of 2.0 mg_
+```{r}
+t.test(len ~ supp, ToothGrowth[ToothGrowth$dose==2.0,])
+```
+
+****
+
+###Conclusion
+With a dose of 0.5 mg or 1.0 mg, the p-value is less than 0.05 and the confidence interval does not contain 0, indicating that at those doses, orange juice leads to increased tooth growth vs. ascorbic acid. However, with a dose of 2.0 mg, the p-value is greater than 0.05 and the confidence interval contains 0, indicating that there isn't a significant difference between orange juice and ascorbic acid at that dose.
